@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MPI Matematika Kelas 6 - Konsep Rasio & Perbandingan</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Tone.js for Audio FX -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, #8b5cf6 0%, #3b82f6 50%, #06b6d4 100%);
+            min-height: 100vh;
+            user-select: none;
+        }
+        .font-heading {
+            font-family: 'Fredoka', cursive;
+        }
+        /* Glassmorphism Effect */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(12px);
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 20px 30px -5px rgba(0, 0, 0, 0.2);
+        }
+        /* Card Flip Animation for Matching & Open the Box */
+        .card-perspective {
+            perspective: 1000px;
+        }
+        .card-inner {
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+        .card-inner.is-flipped {
+            transform: rotateY(180deg);
+        }
+        .card-front, .card-back {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+        .card-back {
+            transform: rotateY(180deg);
+        }
+
+        /* Drag & drop styling */
+        .draggable-item {
+            cursor: grab;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .draggable-item:active {
+            cursor: grabbing;
+            transform: scale(1.05);
+        }
+        .drop-target {
+            transition: all 0.3s ease;
+        }
+        .drop-target.drag-over {
+            background-color: #fef08a !important;
+            border-color: #eab308 !important;
+            transform: scale(1.02);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #8b5cf6;
+            border-radius: 10px;
+        }
+
+        @keyframes pulse-subtle {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+        }
+        .animate-subtle {
+            animation: pulse-subtle 2s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center p-2 sm:p-4 md:p-6 min-h-screen text-slate-800">
+
+    <div id="app" class="w-full max-w-5xl glass-card rounded-3xl p-4 sm:p-7 relative overflow-hidden flex flex-col justify-between min-h-[92vh]">
+        
+        <!-- Header & Stats Bar -->
+        <header class="flex flex-wrap items-center justify-between gap-3 border-b-2 border-slate-200/80 pb-4 mb-4">
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-amber-400 via-purple-500 to-indigo-600 flex items-center justify-center text-white text-2xl shadow-lg">
+                    <i class="fa-solid fa-shapes"></i>
+                </div>
+                <div>
+                    <h1 class="font-heading text-xl sm:text-2xl font-bold text-slate-800 leading-tight">MPI Matematika Kelas 6 SD</h1>
+                    <p class="text-xs sm:text-sm text-indigo-600 font-bold" id="game-subtitle">Petualangan Konsep Rasio Visual</p>
+                </div>
+            </div>
+
+            <!-- Stats Badge -->
+            <div class="flex items-center gap-4 sm:gap-6 bg-slate-100/90 px-4 py-2 rounded-2xl border border-slate-200 shadow-inner">
+                <div class="text-center">
+                    <span class="text-[10px] sm:text-xs text-slate-500 block uppercase font-bold tracking-wider">Skor Total</span>
+                    <span id="score-display" class="font-heading text-xl sm:text-2xl font-extrabold text-amber-500">0</span>
+                </div>
+                <div class="h-8 w-[2px] bg-slate-300"></div>
+                <div class="text-center">
+                    <span class="text-[10px] sm:text-xs text-slate-500 block uppercase font-bold tracking-wider">Waktu</span>
+                    <span id="timer-display" class="font-heading text-xl sm:text-2xl font-extrabold text-emerald-600">00:00</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- START SCREEN -->
+        <section id="start-screen" class="flex flex-col items-center justify-center text-center py-6 my-auto">
+            <div class="relative mb-6">
+                <div class="w-28 h-28 sm:w-36 sm:h-36 bg-amber-400 rounded-3xl rotate-6 absolute -top-2 -left-2 opacity-80 animate-pulse"></div>
+                <div class="w-28 h-28 sm:w-36 sm:h-36 bg-purple-600 rounded-3xl -rotate-6 flex items-center justify-center text-white text-5xl sm:text-6xl shadow-xl relative z-10">
+                    <i class="fa-solid fa-box-open"></i>
+                </div>
+            </div>
+            
+            <h2 class="font-heading text-3xl sm:text-4xl font-extrabold text-slate-800 mb-2">Petualangan Kuis Rasio</h2>
+            <p class="text-slate-600 max-w-lg text-sm sm:text-base mb-6">
+                Belajar <span class="font-bold text-purple-600">Konsep Rasio & Perbandingan</span> secara visual, seru, dan interaktif!
+            </p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 w-full max-w-2xl mb-8">
+                <div class="bg-purple-50 border-2 border-purple-200 rounded-2xl p-3.5 text-left shadow-sm">
+                    <div class="flex items-center gap-2 font-bold text-purple-700 mb-1 text-sm">
+                        <i class="fa-solid fa-box-open text-purple-600"></i> Mode 1: Open the Box
+                    </div>
+                    <p class="text-xs text-slate-600">10 Kotak pilihan soal visual dengan ilustrasi menarik.</p>
+                </div>
+                <div class="bg-emerald-50 border-2 border-emerald-200 rounded-2xl p-3.5 text-left shadow-sm">
+                    <div class="flex items-center gap-2 font-bold text-emerald-700 mb-1 text-sm">
+                        <i class="fa-solid fa-hand-pointer text-emerald-600"></i> Mode 2: Drag & Drop
+                    </div>
+                    <p class="text-xs text-slate-600">5 Tantangan mencocokkan rasio bentuk paling sederhana.</p>
+                </div>
+                <div class="bg-amber-50 border-2 border-amber-200 rounded-2xl p-3.5 text-left shadow-sm">
+                    <div class="flex items-center gap-2 font-bold text-amber-700 mb-1 text-sm">
+                        <i class="fa-solid fa-cards text-amber-600"></i> Mode 3: Matching Game
+                    </div>
+                    <p class="text-xs text-slate-600">5 Pasang kartu bergambar rasio senilai yang seru!</p>
+                </div>
+            </div>
+
+            <button id="btn-start" onclick="startGame()" class="px-8 py-4 bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-heading text-xl font-bold rounded-2xl shadow-xl hover:shadow-2xl transition transform hover:-translate-y-1 active:translate-y-0 flex items-center gap-3 animate-subtle">
+                <i class="fa-solid fa-play"></i> Mulai Petualangan!
+            </button>
+        </section>
+
+        <!-- MODE 1: OPEN THE BOX GRID -->
+        <section id="box-grid-screen" class="hidden flex-col my-auto">
+            <div class="flex justify-between items-center mb-3">
+                <h3 class="font-heading text-lg sm:text-xl text-purple-700 font-bold flex items-center gap-2">
+                    <i class="fa-solid fa-box-open"></i> Bagian 1: Open the Box (10 Soal)
+                </h3>
+                <span id="box-progress" class="text-xs font-bold bg-purple-100 text-purple-700 px-3 py-1.5 rounded-full border border-purple-200">
+                    Selesai: 0 / 10
+                </span>
+            </div>
+
+            <div id="boxes-container" class="grid grid-cols-2 sm:grid-cols-5 gap-3 my-2">
+                <!-- 10 Boxes generated dynamically -->
+            </div>
+
+            <div class="mt-5 text-center">
+                <button id="btn-to-drag" onclick="switchModeToDrag()" class="hidden px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-heading font-bold rounded-xl shadow-md transition items-center gap-2 mx-auto">
+                    Lanjut ke Mode Drag & Drop <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- MODE 1: QUESTION SCREEN -->
+        <section id="question-screen" class="hidden flex-col my-auto">
+            <div class="bg-gradient-to-b from-indigo-50 to-purple-50 border-2 border-indigo-200 rounded-3xl p-4 sm:p-6 relative shadow-inner">
+                <span id="question-number-badge" class="absolute -top-3.5 left-6 bg-purple-600 text-white text-xs font-bold px-4 py-1.5 rounded-full shadow-md">
+                    Soal Kotak #1
+                </span>
+
+                <!-- Ilustrasi Visual Gambar Soal -->
+                <div id="question-image-container" class="w-full flex justify-center items-center my-3 p-4 bg-white rounded-2xl border border-indigo-100 shadow-sm min-h-[130px]">
+                    <!-- Dynamic Visual Illustration -->
+                </div>
+
+                <div id="question-text" class="text-base sm:text-lg font-bold text-slate-800 my-3 text-center">
+                    <!-- Text Soal -->
+                </div>
+
+                <div id="options-container" class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
+                    <!-- Option buttons -->
+                </div>
+            </div>
+        </section>
+
+        <!-- MODE 2: DRAG AND DROP SCREEN -->
+        <section id="drag-drop-screen" class="hidden flex-col my-auto">
+            <div class="flex justify-between items-center mb-3">
+                <h3 class="font-heading text-lg sm:text-xl text-emerald-700 font-bold flex items-center gap-2">
+                    <i class="fa-solid fa-hand-pointer"></i> Bagian 2: Drag & Drop Rasio Sederhana (5 Soal)
+                </h3>
+                <span id="drag-progress" class="text-xs font-bold bg-emerald-100 text-emerald-700 px-3 py-1.5 rounded-full border border-emerald-200">
+                    Sederhanakan Rasio
+                </span>
+            </div>
+            
+            <p class="text-xs sm:text-sm text-slate-600 mb-4">Tarik (drag) penyederhanaan rasio di sebelah kanan dan lepaskan (drop) ke kotak target yang sesuai di sebelah kiri!</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5 items-start">
+                <!-- Drop Targets (Left) -->
+                <div class="space-y-3" id="drop-targets-container">
+                    <!-- Drop targets generated via JS -->
+                </div>
+
+                <!-- Draggable Items (Right) -->
+                <div class="bg-slate-100 p-4 rounded-2xl border-2 border-dashed border-slate-300 min-h-[220px] flex flex-col justify-center shadow-inner">
+                    <h4 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3 text-center">Pilihan Jawaban (Tarik Kartu Ini)</h4>
+                    <div class="flex flex-wrap gap-3 justify-center" id="draggables-container">
+                        <!-- Draggables generated via JS -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-6 flex justify-end">
+                <button id="btn-to-matching" onclick="switchModeToMatching()" class="px-6 py-3 bg-amber-500 hover:bg-amber-600 text-white font-heading font-bold rounded-xl shadow-md transition flex items-center gap-2">
+                    Lanjut ke Mode Matching Cards <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- MODE 3: MATCHING PAIRS CARD GAME -->
+        <section id="matching-screen" class="hidden flex-col my-auto">
+            <div class="flex justify-between items-center mb-3">
+                <h3 class="font-heading text-lg sm:text-xl text-amber-600 font-bold flex items-center gap-2">
+                    <i class="fa-solid fa-puzzle-piece"></i> Bagian 3: Kuis Matching Card Gambar (5 Pasang)
+                </h3>
+                <span id="matching-progress" class="text-xs font-bold bg-amber-100 text-amber-800 px-3 py-1.5 rounded-full border border-amber-200">
+                    Terpasang: 0 / 5
+                </span>
+            </div>
+
+            <p class="text-xs sm:text-sm text-slate-600 mb-3">Buka 2 kartu bergambar untuk menemukan pasangan rasio yang senilai (berharga sama)!</p>
+
+            <!-- Cards Grid (10 cards = 5 pairs) -->
+            <div id="matching-cards-grid" class="grid grid-cols-2 sm:grid-cols-5 gap-3 my-2">
+                <!-- Cards generated via JS -->
+            </div>
+
+            <div class="mt-5 flex justify-end">
+                <button id="btn-finish-all" onclick="finishGame()" class="hidden px-6 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-heading font-bold rounded-xl shadow-lg transition items-center gap-2">
+                    Selesaikan Seluruh Kuis <i class="fa-solid fa-flag-checkered"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- RESULT SCREEN -->
+        <section id="result-screen" class="hidden flex-col items-center justify-center text-center py-6 my-auto">
+            <div class="w-24 h-24 rounded-full bg-gradient-to-tr from-amber-400 to-yellow-300 flex items-center justify-center text-amber-800 text-5xl shadow-xl mb-3 animate-bounce">
+                <i class="fa-solid fa-trophy"></i>
+            </div>
+            <h2 class="font-heading text-3xl font-extrabold text-slate-800 mb-1">Hebat! Kuis Selesai</h2>
+            <p class="text-slate-600 text-sm mb-6">Berikut ringkasan hasil belajar rasio kamu hari ini:</p>
+
+            <!-- Score Cards -->
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 w-full max-w-lg mb-6">
+                <div class="bg-indigo-50 border border-indigo-200 rounded-2xl p-3.5 text-center shadow-sm">
+                    <span class="text-xs text-indigo-600 font-bold block uppercase">Total Skor</span>
+                    <span id="final-score" class="font-heading text-3xl font-extrabold text-indigo-700">0</span>
+                </div>
+                <div class="bg-emerald-50 border border-emerald-200 rounded-2xl p-3.5 text-center shadow-sm">
+                    <span class="text-xs text-emerald-600 font-bold block uppercase">Soal Benar</span>
+                    <span id="final-correct" class="font-heading text-3xl font-extrabold text-emerald-700">0 / 20</span>
+                </div>
+                <div class="bg-purple-50 border border-purple-200 rounded-2xl p-3.5 text-center col-span-2 sm:col-span-1 shadow-sm">
+                    <span class="text-xs text-purple-600 font-bold block uppercase">Waktu Selesai</span>
+                    <span id="final-time" class="font-heading text-2xl font-extrabold text-purple-700">00:00</span>
+                </div>
+            </div>
+
+            <!-- Feedback Message -->
+            <div id="result-feedback" class="p-4 rounded-2xl font-bold text-sm max-w-lg w-full mb-6 border shadow-sm"></div>
+
+            <button onclick="restartGame()" class="px-8 py-3.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-heading font-bold rounded-2xl shadow-lg transition transform hover:-translate-y-0.5 flex items-center gap-2">
+                <i class="fa-solid fa-rotate-right"></i> Main Lagi
+            </button>
+        </section>
+
+        <!-- Footer -->
+        <footer class="mt-4 pt-3 border-t border-slate-200 text-center text-[11px] sm:text-xs text-slate-500 flex flex-col sm:flex-row justify-between items-center gap-2">
+            <span>&copy; Media Pembelajaran Interaktif Matematika Kelas 6 SD</span>
+            <span class="bg-slate-100 px-3 py-1 rounded-full border text-slate-600 font-medium">Materi: Rasio & Perbandingan Senilai</span>
+        </footer>
+    </div>
+
+    <!-- Feedback Toast -->
+    <div id="toast" class="fixed bottom-6 right-6 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none z-50 flex items-center gap-3 px-5 py-3 rounded-2xl shadow-xl text-white font-bold text-sm">
+        <span id="toast-icon"></span>
+        <span id="toast-message"></span>
+    </div>
+
+    <script>
+        // Audio Synthesizer
+        const synth = new Tone.Synth().toDestination();
+        
+        function playCorrectSound() {
+            try {
+                const now = Tone.now();
+                synth.triggerAttackRelease("C5", "8n", now);
+                synth.triggerAttackRelease("E5", "8n", now + 0.12);
+                synth.triggerAttackRelease("G5", "8n", now + 0.24);
+            } catch(e){}
+        }
+
+        function playWrongSound() {
+            try {
+                const now = Tone.now();
+                synth.triggerAttackRelease("G3", "8n", now);
+                synth.triggerAttackRelease("C3", "8n", now + 0.18);
+            } catch(e){}
+        }
+
+        function playClickSound() {
+            try {
+                synth.triggerAttackRelease("C4", "16n");
+            } catch(e){}
+        }
+
+        function playMatchSuccessSound() {
+            try {
+                const now = Tone.now();
+                synth.triggerAttackRelease("G4", "8n", now);
+                synth.triggerAttackRelease("C5", "8n", now + 0.1);
+                synth.triggerAttackRelease("E5", "8n", now + 0.2);
+                synth.triggerAttackRelease("G5", "4n", now + 0.3);
+            } catch(e){}
+        }
+
+        // Helper untuk gambar ilustrasi visual yang mudah dipahami anak-anak SD
+        function generateVisualSVG(type) {
+            switch(type) {
+                case 'apel_jeruk':
+                    return `
+                        <div class="flex items-center gap-4 sm:gap-6 justify-center flex-wrap">
+                            <div class="flex flex-col items-center bg-red-50 p-2.5 rounded-xl border border-red-200">
+                                <div class="flex gap-1">
+                                    <span class="text-3xl sm:text-4xl drop-shadow">🍎</span>
+                                    <span class="text-3xl sm:text-4xl drop-shadow">🍎</span>
+                                </div>
+                                <span class="text-xs font-extrabold text-red-600 mt-1">2 Apel</span>
+                            </div>
+                            <span class="text-2xl font-black text-slate-400">:</span>
+                            <div class="flex flex-col items-center bg-orange-50 p-2.5 rounded-xl border border-orange-200">
+                                <div class="flex gap-1">
+                                    <span class="text-3xl sm:text-4xl drop-shadow">🍊</span>
+                                    <span class="text-3xl sm:text-4xl drop-shadow">🍊</span>
+                                    <span class="text-3xl sm:text-4xl drop-shadow">🍊</span>
+                                </div>
+                                <span class="text-xs font-extrabold text-orange-600 mt-1">3 Jeruk</span>
+                            </div>
+                        </div>`;
+                case 'bintang_bulan':
+                    return `
+                        <div class="flex items-center gap-4 sm:gap-6 justify-center flex-wrap">
+                            <div class="flex flex-col items-center bg-amber-50 p-2.5 rounded-xl border border-amber-200">
+                                <div class="flex gap-1">
+                                    <span class="text-3xl sm:text-4xl drop-shadow">⭐</span>
+                                    <span class="text-3xl sm:text-4xl drop-shadow">⭐</span>
+                                    <span class="text-3xl sm:text-4xl drop-shadow">⭐</span>
+                                    <span class="text-3xl sm:text-4xl drop-shadow">⭐</span>
+                                </div>
+                                <span class="text-xs font-extrabold text-amber-600 mt-1">4 Bintang</span>
+                            </div>
+                            <span class="text-2xl font-black text-slate-400">:</span>
+                            <div class="flex flex-col items-center bg-indigo-50 p-2.5 rounded-xl border border-indigo-200">
+                                <div class="flex gap-1">
+                                    <span class="text-3xl sm:text-4xl drop-shadow">🌙</span>
+                                    <span class="text-3xl sm:text-4xl drop-shadow">🌙</span>
+                                </div>
+                                <span class="text-xs font-extrabold text-indigo-600 mt-1">2 Bulan</span>
+                            </div>
+                        </div>`;
+                case 'kelereng':
+                    return `
+                        <div class="flex items-center gap-4 sm:gap-6 justify-center flex-wrap">
+                            <div class="flex flex-col items-center bg-rose-50 p-2.5 rounded-xl border border-rose-200">
+                                <div class="flex gap-1">
+                                    <span class="text-2xl sm:text-3xl">🔴</span>
+                                    <span class="text-2xl sm:text-3xl">🔴</span>
+                                    <span class="text-2xl sm:text-3xl">🔴</span>
+                                </div>
+                                <span class="text-xs font-extrabold text-rose-600 mt-1">3 Merah</span>
+                            </div>
+                            <span class="text-2xl font-black text-slate-400">:</span>
+                            <div class="flex flex-col items-center bg-blue-50 p-2.5 rounded-xl border border-blue-200">
+                                <div class="flex gap-1">
+                                    <span class="text-2xl sm:text-3xl">🔵</span>
+                                    <span class="text-2xl sm:text-3xl">🔵</span>
+                                    <span class="text-2xl sm:text-3xl">🔵</span>
+                                    <span class="text-2xl sm:text-3xl">🔵</span>
+                                    <span class="text-2xl sm:text-3xl">🔵</span>
+                                </div>
+                                <span class="text-xs font-extrabold text-blue-600 mt-1">5 Biru</span>
+                            </div>
+                        </div>`;
+                case 'sederhana_4_8':
+                    return `
+                        <div class="flex items-center gap-3 justify-center">
+                            <div class="bg-indigo-100 p-2.5 sm:p-3 rounded-2xl border-2 border-indigo-300 font-heading text-xl sm:text-2xl font-bold text-indigo-700">
+                                4 : 8
+                            </div>
+                            <i class="fa-solid fa-arrow-right text-indigo-400 text-lg"></i>
+                            <div class="bg-emerald-100 p-2.5 sm:p-3 rounded-2xl border-2 border-emerald-300 font-heading text-xl sm:text-2xl font-bold text-emerald-700">
+                                ? : ?
+                            </div>
+                        </div>`;
+                case 'pensil_buku':
+                    return `
+                        <div class="flex items-center gap-4 sm:gap-6 justify-center flex-wrap">
+                            <div class="flex flex-col items-center bg-yellow-50 p-2.5 rounded-xl border border-yellow-200">
+                                <div class="flex gap-1">
+                                    <span class="text-3xl sm:text-4xl">✏️</span>
+                                    <span class="text-3xl sm:text-4xl">✏️</span>
+                                    <span class="text-3xl sm:text-4xl">✏️</span>
+                                    <span class="text-3xl sm:text-4xl">✏️</span>
+                                    <span class="text-3xl sm:text-4xl">✏️</span>
+                                </div>
+                                <span class="text-xs font-extrabold text-amber-700 mt-1">5 Pensil</span>
+                            </div>
+                            <span class="text-2xl font-black text-slate-400">:</span>
+                            <div class="flex flex-col items-center bg-purple-50 p-2.5 rounded-xl border border-purple-200">
+                                <div class="flex gap-1">
+                                    <span class="text-3xl sm:text-4xl">📚</span>
+                                    <span class="text-3xl sm:text-4xl">📚</span>
+                                </div>
+                                <span class="text-xs font-extrabold text-purple-600 mt-1">2 Buku</span>
+                            </div>
+                        </div>`;
+                case 'mobil_motor':
+                    return `
+                        <div class="flex items-center gap-4 sm:gap-6 justify-center flex-wrap">
+                            <div class="flex flex-col items-center bg-blue-50 p-2 rounded-xl border border-blue-200">
+                                <div class="flex gap-1">
+                                    <span class="text-3xl">🚗</span>
+                                    <span class="text-3xl">🚗</span>
+                                    <span class="text-3xl">🚗</span>
+                                </div>
+                                <span class="text-xs font-extrabold text-blue-600 mt-1">3 Mobil</span>
+                            </div>
+                            <span class="text-2xl font-black text-slate-400">:</span>
+                            <div class="flex flex-col items-center bg-emerald-50 p-2 rounded-xl border border-emerald-200">
+                                <div class="flex gap-1">
+                                    <span class="text-2xl sm:text-3xl">🏍️</span>
+                                    <span class="text-2xl sm:text-3xl">🏍️</span>
+                                    <span class="text-2xl sm:text-3xl">🏍️</span>
+                                    <span class="text-2xl sm:text-3xl">🏍️</span>
+                                    <span class="text-2xl sm:text-3xl">🏍️</span>
+                                    <span class="text-2xl sm:text-3xl">🏍️</span>
+                                </div>
+                                <span class="text-xs font-extrabold text-emerald-600 mt-1">6 Motor</span>
+                            </div>
+                        </div>`;
+                case 'sederhana_6_9':
+                    return `
+                        <div class="flex items-center gap-3 justify-center">
+                            <div class="bg-amber-100 p-2.5 sm:p-3 rounded-2xl border-2 border-amber-300 font-heading text-xl sm:text-2xl font-bold text-amber-700">
+                                6 : 9
+                            </div>
+                            <i class="fa-solid fa-arrow-right text-amber-400 text-lg"></i>
+                            <div class="bg-emerald-100 p-2.5 sm:p-3 rounded-2xl border-2 border-emerald-300 font-heading text-xl sm:text-2xl font-bold text-emerald-700">
+                                ? : ?
+                            </div>
+                        </div>`;
+                case 'kucing_anjing':
+                    return `
+                        <div class="flex items-center gap-4 sm:gap-6 justify-center flex-wrap">
+                            <div class="flex flex-col items-center bg-amber-50 p-2.5 rounded-xl border border-amber-200">
+                                <div class="flex gap-1">
+                                    <span class="text-3xl sm:text-4xl">🐱</span>
+                                </div>
+                                <span class="text-xs font-extrabold text-amber-700 mt-1">1 Kucing</span>
+                            </div>
+                            <span class="text-2xl font-black text-slate-400">:</span>
+                            <div class="flex flex-col items-center bg-orange-50 p-2.5 rounded-xl border border-orange-200">
+                                <div class="flex gap-1">
+                                    <span class="text-3xl sm:text-4xl">🐶</span>
+                                    <span class="text-3xl sm:text-4xl">🐶</span>
+                                    <span class="text-3xl sm:text-4xl">🐶</span>
+                                    <span class="text-3xl sm:text-4xl">🐶</span>
+                                </div>
+                                <span class="text-xs font-extrabold text-amber-900 mt-1">4 Anjing</span>
+                            </div>
+                        </div>`;
+                case 'permen':
+                    return `
+                        <div class="flex items-center gap-4 sm:gap-6 justify-center flex-wrap">
+                            <div class="flex flex-col items-center bg-pink-50 p-2 rounded-xl border border-pink-200">
+                                <div class="flex gap-1">
+                                    <span class="text-3xl">🍬</span>
+                                    <span class="text-3xl">🍬</span>
+                                </div>
+                                <span class="text-xs font-extrabold text-pink-600 mt-1">2 Merah Muda</span>
+                            </div>
+                            <span class="text-2xl font-black text-slate-400">:</span>
+                            <div class="flex flex-col items-center bg-purple-50 p-2 rounded-xl border border-purple-200">
+                                <div class="flex gap-1">
+                                    <span class="text-3xl">🍭</span>
+                                    <span class="text-3xl">🍭</span>
+                                    <span class="text-3xl">🍭</span>
+                                </div>
+                                <span class="text-xs font-extrabold text-purple-600 mt-1">3 Ungu</span>
+                            </div>
+                        </div>`;
+                case 'senilai_1_2':
+                    return `
+                        <div class="flex items-center gap-3 justify-center">
+                            <span class="font-heading text-xl sm:text-2xl font-bold text-indigo-600">1 : 2</span>
+                            <span class="text-2xl font-bold text-slate-400">=</span>
+                            <span class="font-heading text-xl sm:text-2xl font-bold text-emerald-600">? : ?</span>
+                        </div>`;
+                default:
+                    return '';
+            }
+        }
+
+        // 10 Soal Open the Box Visual
+        const boxQuestions = [
+            {
+                id: 1,
+                visualType: 'apel_jeruk',
+                question: "Berapakah rasio (perbandingan) antara jumlah APEL dan JERUK pada gambar?",
+                options: ["2 : 3", "3 : 2", "2 : 5", "3 : 1"],
+                answer: 0
+            },
+            {
+                id: 2,
+                visualType: 'bintang_bulan',
+                question: "Berdasarkan gambar di atas, rasio BINTANG terhadap BULAN adalah...",
+                options: ["2 : 4", "4 : 2", "4 : 6", "2 : 2"],
+                answer: 1
+            },
+            {
+                id: 3,
+                visualType: 'kelereng',
+                question: "Rasio kelereng MERAH terhadap kelereng BIRU adalah...",
+                options: ["3 : 5", "5 : 3", "3 : 8", "1 : 2"],
+                answer: 0
+            },
+            {
+                id: 4,
+                visualType: 'sederhana_4_8',
+                question: "Bentuk paling sederhana dari rasio 4 : 8 adalah...",
+                options: ["2 : 3", "1 : 2", "1 : 4", "2 : 5"],
+                answer: 1
+            },
+            {
+                id: 5,
+                visualType: 'pensil_buku',
+                question: "Berapa rasio antara jumlah PENSIL terhadap BUKU?",
+                options: ["2 : 5", "5 : 2", "5 : 7", "3 : 2"],
+                answer: 1
+            },
+            {
+                id: 6,
+                visualType: 'mobil_motor',
+                question: "Rasio MOBIL terhadap MOTOR adalah 3 : 6. Jika disederhanakan menjadi...",
+                options: ["1 : 2", "1 : 3", "2 : 3", "3 : 1"],
+                answer: 0
+            },
+            {
+                id: 7,
+                visualType: 'sederhana_6_9',
+                question: "Bentuk paling sederhana dari rasio 6 : 9 adalah...",
+                options: ["3 : 2", "2 : 3", "1 : 3", "2 : 4"],
+                answer: 1
+            },
+            {
+                id: 8,
+                visualType: 'kucing_anjing',
+                question: "Berapakah perbandingan jumlah KUCING dengan ANJING?",
+                options: ["1 : 4", "4 : 1", "1 : 5", "2 : 4"],
+                answer: 0
+            },
+            {
+                id: 9,
+                visualType: 'permen',
+                question: "Rasio permen Merah Muda terhadap permen Ungu adalah...",
+                options: ["3 : 2", "2 : 3", "2 : 5", "1 : 3"],
+                answer: 1
+            },
+            {
+                id: 10,
+                visualType: 'senilai_1_2',
+                question: "Manakah rasio di bawah ini yang SENILAI (sama harganya) dengan 1 : 2?",
+                options: ["2 : 4", "3 : 5", "2 : 3", "4 : 5"],
+                answer: 0
+            }
+        ];
+
+        // 5 Soal Drag and Drop Penyederhanaan Rasio
+        const dragQuestions = [
+            { id: 'd1', original: "Rasio 2 : 4", targetVal: "1 : 2" },
+            { id: 'd2', original: "Rasio 3 : 6", targetVal: "1 : 2" },
+            { id: 'd3', original: "Rasio 4 : 6", targetVal: "2 : 3" },
+            { id: 'd4', original: "Rasio 5 : 10", targetVal: "1 : 2" },
+            { id: 'd5', original: "Rasio 6 : 8", targetVal: "3 : 4" }
+        ];
+
+        // 5 Pasang Kartu Matching Game dengan Gambar Unik & Menarik
+        const matchingPairsBase = [
+            {
+                pairId: 1,
+                val: "1 : 2",
+                visual: `<div class="text-center"><span class="text-3xl">🍓</span><span class="text-xs block font-bold text-red-600">1 : 2</span></div>`,
+                type: 'A'
+            },
+            {
+                pairId: 1,
+                val: "2 : 4",
+                visual: `<div class="text-center"><span class="text-3xl">🍓🍓</span><span class="text-xs block font-bold text-red-600">2 : 4</span></div>`,
+                type: 'B'
+            },
+            {
+                pairId: 2,
+                val: "1 : 3",
+                visual: `<div class="text-center"><span class="text-3xl">🍌</span><span class="text-xs block font-bold text-amber-600">1 : 3</span></div>`,
+                type: 'A'
+            },
+            {
+                pairId: 2,
+                val: "3 : 9",
+                visual: `<div class="text-center"><span class="text-3xl">🍌🍌</span><span class="text-xs block font-bold text-amber-600">3 : 9</span></div>`,
+                type: 'B'
+            },
+            {
+                pairId: 3,
+                val: "2 : 3",
+                visual: `<div class="text-center"><span class="text-3xl">🍇</span><span class="text-xs block font-bold text-purple-600">2 : 3</span></div>`,
+                type: 'A'
+            },
+            {
+                pairId: 3,
+                val: "4 : 6",
+                visual: `<div class="text-center"><span class="text-3xl">🍇🍇</span><span class="text-xs block font-bold text-purple-600">4 : 6</span></div>`,
+                type: 'B'
+            },
+            {
+                pairId: 4,
+                val: "3 : 4",
+                visual: `<div class="text-center"><span class="text-3xl">🍉</span><span class="text-xs block font-bold text-emerald-600">3 : 4</span></div>`,
+                type: 'A'
+            },
+            {
+                pairId: 4,
+                val: "6 : 8",
+                visual: `<div class="text-center"><span class="text-3xl">🍉🍉</span><span class="text-xs block font-bold text-emerald-600">6 : 8</span></div>`,
+                type: 'B'
+            },
+            {
+                pairId: 5,
+                val: "2 : 5",
+                visual: `<div class="text-center"><span class="text-3xl">🍍</span><span class="text-xs block font-bold text-amber-700">2 : 5</span></div>`,
+                type: 'A'
+            },
+            {
+                pairId: 5,
+                val: "4 : 10",
+                visual: `<div class="text-center"><span class="text-3xl">🍍🍍</span><span class="text-xs block font-bold text-amber-700">4 : 10</span></div>`,
+                type: 'B'
+            }
+        ];
+
+        // Game State Variables
+        let currentScore = 0;
+        let timerSeconds = 0;
+        let timerInterval = null;
+        let openedBoxesCount = 0;
+        let activeBoxIndex = null;
+        let answeredBoxes = {}; 
+        let dragMatches = {}; 
+        let totalCorrectCount = 0;
+
+        // Matching game state
+        let matchingDeck = [];
+        let flippedCards = [];
+        let matchedPairsCount = 0;
+        let isLockMatchingBoard = false;
+
+        // Element Selectors
+        const startScreen = document.getElementById('start-screen');
+        const boxGridScreen = document.getElementById('box-grid-screen');
+        const questionScreen = document.getElementById('question-screen');
+        const dragDropScreen = document.getElementById('drag-drop-screen');
+        const matchingScreen = document.getElementById('matching-screen');
+        const resultScreen = document.getElementById('result-screen');
+
+        function startGame() {
+            Tone.start();
+            playClickSound();
+
+            currentScore = 0;
+            timerSeconds = 0;
+            openedBoxesCount = 0;
+            totalCorrectCount = 0;
+            matchedPairsCount = 0;
+            answeredBoxes = {};
+            dragMatches = {};
+            flippedCards = [];
+
+            updateScoreUI();
+            startTimer();
+
+            startScreen.classList.add('hidden');
+            resultScreen.classList.add('hidden');
+            boxGridScreen.classList.remove('hidden');
+            boxGridScreen.classList.add('flex');
+
+            renderBoxGrid();
+        }
+
+        function startTimer() {
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                timerSeconds++;
+                const mins = String(Math.floor(timerSeconds / 60)).padStart(2, '0');
+                const secs = String(timerSeconds % 60).padStart(2, '0');
+                document.getElementById('timer-display').innerText = `${mins}:${secs}`;
+            }, 1000);
+        }
+
+        function stopTimer() {
+            clearInterval(timerInterval);
+        }
+
+        function addScore(points) {
+            currentScore += points;
+            updateScoreUI();
+        }
+
+        function updateScoreUI() {
+            document.getElementById('score-display').innerText = currentScore;
+        }
+
+        function renderBoxGrid() {
+            const container = document.getElementById('boxes-container');
+            container.innerHTML = '';
+
+            boxQuestions.forEach((q, idx) => {
+                const isOpened = answeredBoxes[idx] !== undefined;
+                const isCorrect = answeredBoxes[idx] === true;
+
+                const boxEl = document.createElement('div');
+                boxEl.className = `card-perspective h-24 sm:h-28 rounded-2xl cursor-pointer ${isOpened ? 'cursor-default' : ''}`;
+                
+                let bgGradient = "bg-gradient-to-br from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700";
+
+                boxEl.innerHTML = `
+                    <div class="card-inner w-full h-full relative rounded-2xl shadow-md border-2 border-white/40 ${isOpened ? 'is-flipped' : ''}">
+                        <!-- Front (Closed Box) -->
+                        <div class="card-front absolute inset-0 rounded-2xl ${bgGradient} flex flex-col items-center justify-center text-white p-2">
+                            <i class="fa-solid fa-gift text-2xl sm:text-3xl mb-1 drop-shadow"></i>
+                            <span class="font-heading text-base sm:text-lg font-bold">${idx + 1}</span>
+                        </div>
+                        <!-- Back (Opened State) -->
+                        <div class="card-back absolute inset-0 rounded-2xl ${isCorrect ? 'bg-emerald-500' : 'bg-rose-500'} text-white flex flex-col items-center justify-center p-2">
+                            <i class="fa-solid ${isCorrect ? 'fa-circle-check' : 'fa-circle-xmark'} text-3xl mb-1"></i>
+                            <span class="text-xs font-bold">${isCorrect ? '+100 Poin' : 'Salah'}</span>
+                        </div>
+                    </div>
+                `;
+
+                if (!isOpened) {
+                    boxEl.onclick = () => openQuestionModal(idx);
+                }
+
+                container.appendChild(boxEl);
+            });
+
+            document.getElementById('box-progress').innerText = `Selesai: ${openedBoxesCount} / 10`;
+
+            if (openedBoxesCount >= 10) {
+                const btnNext = document.getElementById('btn-to-drag');
+                btnNext.classList.remove('hidden');
+                btnNext.classList.add('flex');
+            }
+        }
+
+        function openQuestionModal(index) {
+            playClickSound();
+            activeBoxIndex = index;
+            const qData = boxQuestions[index];
+
+            boxGridScreen.classList.add('hidden');
+            questionScreen.classList.remove('hidden');
+            questionScreen.classList.add('flex');
+
+            document.getElementById('question-number-badge').innerText = `Soal Kotak Nomor ${index + 1}`;
+            
+            // Render Gambar
+            const imgContainer = document.getElementById('question-image-container');
+            imgContainer.innerHTML = generateVisualSVG(qData.visualType);
+
+            document.getElementById('question-text').innerText = qData.question;
+
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+
+            qData.options.forEach((opt, optIdx) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-3.5 rounded-xl bg-white border-2 border-slate-200 hover:border-purple-500 hover:bg-purple-50 transition font-semibold text-slate-700 flex items-center gap-3 group shadow-sm";
+                btn.innerHTML = `
+                    <span class="w-8 h-8 rounded-lg bg-slate-100 group-hover:bg-purple-600 group-hover:text-white flex items-center justify-center text-xs font-bold transition">
+                        ${String.fromCharCode(65 + optIdx)}
+                    </span>
+                    <span class="text-sm sm:text-base">${opt}</span>
+                `;
+                btn.onclick = () => selectAnswer(optIdx);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function selectAnswer(selectedIndex) {
+            const qData = boxQuestions[activeBoxIndex];
+            const isCorrect = selectedIndex === qData.answer;
+
+            answeredBoxes[activeBoxIndex] = isCorrect;
+            openedBoxesCount++;
+
+            if (isCorrect) {
+                addScore(100);
+                totalCorrectCount++;
+                playCorrectSound();
+                showToast("Jawaban Benar! +100 poin", "success");
+            } else {
+                playWrongSound();
+                showToast(`Kurang Tepat! Jawaban: ${qData.options[qData.answer]}`, "error");
+            }
+
+            setTimeout(() => {
+                questionScreen.classList.add('hidden');
+                boxGridScreen.classList.remove('hidden');
+                renderBoxGrid();
+            }, 1200);
+        }
+
+        function switchModeToDrag() {
+            playClickSound();
+            boxGridScreen.classList.add('hidden');
+            dragDropScreen.classList.remove('hidden');
+            dragDropScreen.classList.add('flex');
+            document.getElementById('game-subtitle').innerText = "Bagian 2: Drag & Drop Rasio Sederhana";
+            renderDragAndDrop();
+        }
+
+        function renderDragAndDrop() {
+            const targetsContainer = document.getElementById('drop-targets-container');
+            const draggablesContainer = document.getElementById('draggables-container');
+
+            targetsContainer.innerHTML = '';
+            draggablesContainer.innerHTML = '';
+
+            dragQuestions.forEach((q) => {
+                const targetDiv = document.createElement('div');
+                targetDiv.className = "drop-target bg-white border-2 border-dashed border-slate-300 rounded-2xl p-3 flex items-center justify-between transition shadow-sm min-h-[58px]";
+                targetDiv.dataset.id = q.id;
+                targetDiv.dataset.expected = q.targetVal;
+
+                targetDiv.innerHTML = `
+                    <span class="font-bold text-slate-700 text-sm sm:text-base">${q.original}</span>
+                    <div class="drop-zone border-2 border-indigo-200 bg-indigo-50/80 rounded-xl px-4 py-2 min-w-[100px] text-center text-xs sm:text-sm font-extrabold text-indigo-700">
+                        ${dragMatches[q.id] ? dragMatches[q.id] : 'Lepas di sini'}
+                    </div>
+                `;
+
+                targetDiv.addEventListener('dragover', handleDragOver);
+                targetDiv.addEventListener('dragleave', handleDragLeave);
+                targetDiv.addEventListener('drop', handleDrop);
+
+                targetsContainer.appendChild(targetDiv);
+            });
+
+            const availableValues = dragQuestions.map(q => q.targetVal);
+
+            availableValues.forEach((val) => {
+                const isUsed = Object.values(dragMatches).includes(val);
+                if (!isUsed) {
+                    const dragEl = document.createElement('div');
+                    dragEl.className = "draggable-item bg-amber-400 hover:bg-amber-500 text-amber-950 font-extrabold px-4 py-2.5 rounded-xl shadow-md cursor-grab flex items-center gap-2 text-xs sm:text-sm border border-amber-300";
+                    dragEl.draggable = true;
+                    dragEl.dataset.val = val;
+                    dragEl.innerHTML = `<i class="fa-solid fa-grip-vertical opacity-60"></i> ${val}`;
+
+                    dragEl.addEventListener('dragstart', handleDragStart);
+
+                    draggablesContainer.appendChild(dragEl);
+                }
+            });
+
+            if (draggablesContainer.children.length === 0) {
+                draggablesContainer.innerHTML = `<p class="text-xs text-emerald-600 font-bold text-center"><i class="fa-solid fa-circle-check"></i> Semua rasio telah diletakkan!</p>`;
+            }
+        }
+
+        let draggedVal = null;
+
+        function handleDragStart(e) {
+            draggedVal = e.target.dataset.val;
+            e.dataTransfer.setData('text/plain', draggedVal);
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.currentTarget.classList.add('drag-over');
+        }
+
+        function handleDragLeave(e) {
+            e.currentTarget.classList.remove('drag-over');
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            const targetEl = e.currentTarget;
+            targetEl.classList.remove('drag-over');
+
+            const targetId = targetEl.dataset.id;
+
+            if (draggedVal) {
+                dragMatches[targetId] = draggedVal;
+                playClickSound();
+                renderDragAndDrop();
+            }
+        }
+
+        function switchModeToMatching() {
+            playClickSound();
+
+            // Calculate drag points first
+            let dragCorrect = 0;
+            dragQuestions.forEach(q => {
+                if (dragMatches[q.id] === q.targetVal) {
+                    dragCorrect++;
+                }
+            });
+            addScore(dragCorrect * 100);
+            totalCorrectCount += dragCorrect;
+
+            dragDropScreen.classList.add('hidden');
+            matchingScreen.classList.remove('hidden');
+            matchingScreen.classList.add('flex');
+            document.getElementById('game-subtitle').innerText = "Bagian 3: Kuis Matching Card Visual";
+
+            initMatchingGame();
+        }
+
+        function initMatchingGame() {
+            // Shuffle cards deck
+            matchingDeck = [...matchingPairsBase].sort(() => Math.random() - 0.5);
+            flippedCards = [];
+            matchedPairsCount = 0;
+
+            renderMatchingDeck();
+        }
+
+        function renderMatchingDeck() {
+            const gridContainer = document.getElementById('matching-cards-grid');
+            gridContainer.innerHTML = '';
+
+            matchingDeck.forEach((card, index) => {
+                const isFlipped = card.isMatched || flippedCards.includes(index);
+
+                const cardEl = document.createElement('div');
+                cardEl.className = "card-perspective h-28 sm:h-32 cursor-pointer";
+
+                cardEl.innerHTML = `
+                    <div class="card-inner w-full h-full relative rounded-2xl shadow-md border-2 border-white/50 ${isFlipped ? 'is-flipped' : ''}" id="match-card-${index}">
+                        <!-- Front (Cover) -->
+                        <div class="card-front absolute inset-0 rounded-2xl bg-gradient-to-tr from-amber-400 via-orange-400 to-amber-500 flex flex-col items-center justify-center text-amber-950 p-2 border-2 border-amber-200">
+                            <i class="fa-solid fa-cards text-3xl mb-1 opacity-90"></i>
+                            <span class="font-heading text-xs font-bold uppercase tracking-wider">Buka Kartu</span>
+                        </div>
+                        <!-- Back (Visual Ratio Value) -->
+                        <div class="card-back absolute inset-0 rounded-2xl bg-white border-2 ${card.isMatched ? 'border-emerald-400 bg-emerald-50' : 'border-indigo-200'} flex flex-col items-center justify-center p-2 shadow-inner">
+                            ${card.visual}
+                        </div>
+                    </div>
+                `;
+
+                if (!card.isMatched) {
+                    cardEl.onclick = () => onMatchingCardClick(index);
+                }
+
+                gridContainer.appendChild(cardEl);
+            });
+
+            document.getElementById('matching-progress').innerText = `Terpasang: ${matchedPairsCount} / 5`;
+
+            if (matchedPairsCount >= 5) {
+                const btnFinish = document.getElementById('btn-finish-all');
+                btnFinish.classList.remove('hidden');
+                btnFinish.classList.add('flex');
+            }
+        }
+
+        function onMatchingCardClick(index) {
+            if (isLockMatchingBoard || flippedCards.includes(index) || matchingDeck[index].isMatched) {
+                return;
+            }
+
+            playClickSound();
+            flippedCards.push(index);
+            renderMatchingDeck();
+
+            if (flippedCards.length === 2) {
+                isLockMatchingBoard = true;
+                const idx1 = flippedCards[0];
+                const idx2 = flippedCards[1];
+
+                const card1 = matchingDeck[idx1];
+                const card2 = matchingDeck[idx2];
+
+                // Check match logic (Same pairId, but distinct type A vs B)
+                if (card1.pairId === card2.pairId && card1.type !== card2.type) {
+                    card1.isMatched = true;
+                    card2.isMatched = true;
+                    matchedPairsCount++;
+                    totalCorrectCount++;
+                    addScore(100);
+
+                    playMatchSuccessSound();
+                    showToast("Pasangan Cocok! +100 poin", "success");
+
+                    flippedCards = [];
+                    isLockMatchingBoard = false;
+                    renderMatchingDeck();
+                } else {
+                    playWrongSound();
+                    showToast("Belum cocok, coba lagi!", "error");
+
+                    setTimeout(() => {
+                        flippedCards = [];
+                        isLockMatchingBoard = false;
+                        renderMatchingDeck();
+                    }, 1200);
+                }
+            }
+        }
+
+        function finishGame() {
+            stopTimer();
+            playClickSound();
+
+            matchingScreen.classList.add('hidden');
+            resultScreen.classList.remove('hidden');
+            resultScreen.classList.add('flex');
+
+            document.getElementById('final-score').innerText = currentScore;
+            document.getElementById('final-correct').innerText = `${totalCorrectCount} / 20`;
+            
+            const mins = String(Math.floor(timerSeconds / 60)).padStart(2, '0');
+            const secs = String(timerSeconds % 60).padStart(2, '0');
+            document.getElementById('final-time').innerText = `${mins}:${secs}`;
+
+            // Feedback setup
+            const feedbackEl = document.getElementById('result-feedback');
+            if (totalCorrectCount >= 17) {
+                feedbackEl.className = "p-4 rounded-2xl bg-emerald-100 text-emerald-900 font-extrabold text-sm max-w-lg w-full mb-6 border border-emerald-300";
+                feedbackEl.innerHTML = "<i class='fa-solid fa-star text-amber-500 text-lg mr-2'></i> SANGAT LUAR BIASA! Kamu sudah menguasai Konsep Rasio Visual dengan sempurna!";
+            } else if (totalCorrectCount >= 11) {
+                feedbackEl.className = "p-4 rounded-2xl bg-indigo-100 text-indigo-900 font-extrabold text-sm max-w-lg w-full mb-6 border border-indigo-300";
+                feedbackEl.innerHTML = "<i class='fa-solid fa-thumbs-up text-indigo-600 text-lg mr-2'></i> HEBAT! Kamu sudah sangat memahami dasar-dasar rasio.";
+            } else {
+                feedbackEl.className = "p-4 rounded-2xl bg-amber-100 text-amber-900 font-extrabold text-sm max-w-lg w-full mb-6 border border-amber-300";
+                feedbackEl.innerHTML = "<i class='fa-solid fa-book-open text-amber-600 text-lg mr-2'></i> BAGUS! Mari tingkatkan latihan dengan mencoba kuis sekali lagi ya!";
+            }
+        }
+
+        function restartGame() {
+            playClickSound();
+            startGame();
+        }
+
+        function showToast(message, type = "success") {
+            const toast = document.getElementById('toast');
+            const icon = document.getElementById('toast-icon');
+            const msgSpan = document.getElementById('toast-message');
+
+            msgSpan.innerText = message;
+
+            if (type === "success") {
+                toast.className = "fixed bottom-6 right-6 transition-all duration-300 z-50 flex items-center gap-3 px-5 py-3 rounded-2xl shadow-xl text-white font-bold text-sm bg-emerald-600 translate-y-0 opacity-100";
+                icon.innerHTML = `<i class="fa-solid fa-circle-check text-lg"></i>`;
+            } else {
+                toast.className = "fixed bottom-6 right-6 transition-all duration-300 z-50 flex items-center gap-3 px-5 py-3 rounded-2xl shadow-xl text-white font-bold text-sm bg-rose-600 translate-y-0 opacity-100";
+                icon.innerHTML = `<i class="fa-solid fa-circle-xmark text-lg"></i>`;
+            }
+
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 2300);
+        }
+
+        // Initialize display state
+        window.onload = function() {
+            document.getElementById('timer-display').innerText = "00:00";
+        }
+    </script>
+</body>
+</html>
